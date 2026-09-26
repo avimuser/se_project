@@ -1,0 +1,102 @@
+Table student_bag [headercolor: #175e7a] {
+	id integer [ pk, increment, not null ]
+	hostel_id integer [ not null ]
+	pickup_id integer
+	delivery_id integer
+}
+
+Table hostel [headercolor: #175e7a] {
+	id integer [ pk, increment, not null ]
+	laundromat_id integer [ not null ]
+}
+
+Table laundromat [headercolor: #175e7a] {
+	id integer [ pk, increment, not null ]
+}
+
+Table pickup [headercolor: #175e7a] {
+	id integer [ pk, increment, not null ]
+	hostel_id integer [ not null ]
+	laundromat_id integer [ not null ]
+	handler_id integer [ not null ]
+	scheduled_time timestamp [ not null ]
+}
+
+Table handler [headercolor: #175e7a] {
+	id integer [ pk, increment, not null ]
+}
+
+Table delivery [headercolor: #175e7a] {
+	id integer [ pk, increment, not null ]
+	hostel_id integer [ not null ]
+	laundromat_id integer [ not null ]
+	handler_id integer [ not null ]
+	scheduled_time timestamp [ not null ]
+}
+
+Table pickup_history [headercolor: #175e7a] {
+	student_bag integer [ pk, increment, not null ]
+	pickup_id integer [ pk, not null ]
+}
+
+Table delivery_history [headercolor: #175e7a] {
+	student_bag integer [ pk, increment, not null ]
+	delivery_id integer [ pk, not null ]
+	failed boolean [ not null ]
+}
+
+Ref fk_students_hostel_id_hostels {
+	student_bag.hostel_id > hostel.id [ delete: no action, update: no action ]
+}
+
+Ref fk_hostels_laundromat_id_laundromat {
+	hostel.laundromat_id > laundromat.id [ delete: no action, update: no action ]
+}
+
+Ref fk_pickup_laundromat_id_laundromat {
+	pickup.laundromat_id > laundromat.id [ delete: no action, update: no action ]
+}
+
+Ref fk_pickup_hostel_id_hostels {
+	pickup.hostel_id > hostel.id [ delete: no action, update: no action ]
+}
+
+Ref fk_student_bag_pickup_id_pickup {
+	student_bag.pickup_id > pickup.id [ delete: no action, update: no action ]
+}
+
+Ref fk_pickup_handler_id_handler {
+	pickup.handler_id > handler.id [ delete: no action, update: no action ]
+}
+
+Ref fk_delivery_handler_id_handler {
+	delivery.handler_id > handler.id [ delete: no action, update: no action ]
+}
+
+Ref fk_student_bag_delivery_id_delivery {
+	student_bag.delivery_id > delivery.id [ delete: no action, update: no action ]
+}
+
+Ref fk_delivery_hostel_id_hostel {
+	delivery.hostel_id > hostel.id [ delete: no action, update: no action ]
+}
+
+Ref fk_delivery_laundromat_id_laundromat {
+	delivery.laundromat_id > laundromat.id [ delete: no action, update: no action ]
+}
+
+Ref fk_pickup_history_student_bag_student_bag {
+	pickup_history.student_bag - student_bag.id [ delete: no action, update: no action ]
+}
+
+Ref fk_pickup_history_pickup_id_pickup {
+	pickup_history.pickup_id - pickup.id [ delete: no action, update: no action ]
+}
+
+Ref fk_delivery_history_student_bag_student_bag {
+	delivery_history.student_bag - student_bag.id [ delete: no action, update: no action ]
+}
+
+Ref fk_delivery_history_delivery_id_delivery {
+	delivery_history.delivery_id - delivery.id [ delete: no action, update: no action ]
+}
