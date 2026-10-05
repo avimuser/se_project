@@ -1,0 +1,10 @@
+# TODO:
+# Restart?
+# Extract ports to env vars
+# Merge compose.dev.yaml and compose.yaml?
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    command: ["/main"]

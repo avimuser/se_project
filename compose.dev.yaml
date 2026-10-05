@@ -1,0 +1,29 @@
+# TODO:
+# Extract ports to env vars
+# Extract db path to env var
+services:
+  backend:
+    image: golang:1.27.1-alpine
+    command: ["go", "run", "."]
+    working_dir: /src
+    ports:
+      - 8080:8080
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./backend
+          target: /src
+          initial_sync: true
+    volumes:
+      - sqlite_data:/data
+
+  sqlite-web:
+    image: ghcr.io/coleifer/sqlite-web:latest
+    ports:
+      - 1234:8080
+    volumes:
+      - sqlite_data:/data
+    command: ["db.sqlite"]
+
+volumes:
+  sqlite_data:
