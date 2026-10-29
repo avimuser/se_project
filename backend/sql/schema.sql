@@ -5,25 +5,20 @@ CREATE TABLE IF NOT EXISTS "student_bag" (
 	"hostel_id" INTEGER NOT NULL,
 	"pickup_id" INTEGER,
 	"delivery_id" INTEGER,
-	PRIMARY KEY("id"),
-	FOREIGN KEY ("hostel_id") REFERENCES "hostel"("id")
-	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY ("pickup_id") REFERENCES "pickup"("id")
-	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY ("delivery_id") REFERENCES "delivery"("id")
-	ON UPDATE NO ACTION ON DELETE NO ACTION
+	"name" TEXT,
+	PRIMARY KEY("id")
 );
 
 CREATE TABLE IF NOT EXISTS "hostel" (
 	"id" INTEGER NOT NULL,
 	"laundromat_id" INTEGER NOT NULL,
-	PRIMARY KEY("id"),
-	FOREIGN KEY ("laundromat_id") REFERENCES "laundromat"("id")
-	ON UPDATE NO ACTION ON DELETE NO ACTION
+	"name" TEXT,
+	PRIMARY KEY("id")
 );
 
 CREATE TABLE IF NOT EXISTS "laundromat" (
 	"id" INTEGER NOT NULL,
+	"name" TEXT,
 	PRIMARY KEY("id")
 );
 
@@ -37,13 +32,12 @@ CREATE TABLE IF NOT EXISTS "pickup" (
 	FOREIGN KEY ("laundromat_id") REFERENCES "laundromat"("id")
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY ("hostel_id") REFERENCES "hostel"("id")
-	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY ("handler_id") REFERENCES "handler"("id")
 	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS "handler" (
 	"id" INTEGER NOT NULL,
+	"name" TEXT,
 	PRIMARY KEY("id")
 );
 

@@ -17,7 +17,6 @@ import (
 var createTables string
 
 // TODO:
-// Complete the database schema by adding extra things like names and shit
 // Make endpoints to create basic objects
 // Make simple admin panel
 // Extract db path to env var
