@@ -2,13 +2,11 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
+	_ "embed"
 	"log"
 	"net/http"
-
-	"se_project/dbutils"
-
-	_ "embed"
+	"os"
+	"time"
 
 	_ "modernc.org/sqlite"
 )
@@ -16,32 +14,32 @@ import (
 //go:embed sql/schema.sql
 var createTables string
 
-// TODO:
-// Make endpoints to create basic objects
-// Make simple admin panel
-// Extract db path to env var
-// Extract port to env var
+// Implement auth
 func run() error {
-	port := 8080
-
-	db, err := sql.Open("sqlite", ":memory:")
+	path := os.Getenv("DB_PATH")
+	if path == "" {
+		path = "laundry.sqlite"
+	}
+	db, err := sql.Open("sqlite", path)
 	if err != nil {
 		return err
 	}
-
-	if _, err := db.Exec(createTables); err != nil {
+	defer db.Close()
+	// Keep foreign-key settings and serialized workflow transactions on one connection.
+	db.SetMaxOpenConns(1)
+	if _, err = db.Exec("PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;" + createTables); err != nil {
 		return err
 	}
-
-	queries := dbutils.New(db)
-
-	http.HandleFunc("/laundromat/create", func(w http.ResponseWriter, r *http.Request) {
-		queries.CreateLaundromat(r.Context())
-		w.WriteHeader(http.StatusCreated)
-	})
-	http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
-
-	return nil
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	if err := bootstrapAdmin(db); err != nil {
+		return err
+	}
+	server := &http.Server{Addr: ":" + port, Handler: newHandler(db), ReadHeaderTimeout: 5 * time.Second}
+	log.Printf("Smart Laundry listening on http://localhost:%s", port)
+	return server.ListenAndServe()
 }
 
 func main() {

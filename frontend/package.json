@@ -1,0 +1,26 @@
+{
+ "name": "smart-laundry-admin",
+ "private": true,
+ "version": "0.1.0",
+ "type": "module",
+ "scripts": {
+  "dev": "vite --host 0.0.0.0",
+  "build": "tsc --noEmit && vite build",
+  "preview": "vite preview --host 0.0.0.0"
+ },
+ "dependencies": {
+  "@fontsource/inter": "latest",
+  "jsqr": "^1.4.0",
+  "lucide-react": "latest",
+  "qrcode.react": "^4.2.0",
+  "react": "latest",
+  "react-dom": "latest"
+ },
+ "devDependencies": {
+  "typescript": "latest",
+  "vite": "latest",
+  "@vitejs/plugin-react": "latest",
+  "@types/react": "latest",
+  "@types/react-dom": "latest"
+ }
+}
