@@ -4,6 +4,6 @@
 
 To view the database schema:
 - Go to https://drawdb.app/editor
-- Choose PostgresSQL
-- `file > import > from dbml`
-- Upload [schema.dbml](schema.dbml)
+- Choose SQLite
+- `file > Import from SQL`
+- Upload [schema.sql](../backend/sql/schema.sql)

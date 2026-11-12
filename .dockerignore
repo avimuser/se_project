@@ -1,0 +1,10 @@
+.git
+report
+yay-bin
+frontend/node_modules
+frontend/dist
+**/*.sqlite
+**/*.sqlite-*
+.codex
+.agents
+.aws

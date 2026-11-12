@@ -1,0 +1,47 @@
+services:
+  backend:
+    image: golang:1.27.1-alpine
+    command: ["go", "run", "."]
+    working_dir: /src
+    ports:
+      - "${PORT:-8080}:${PORT:-8080}"
+    environment:
+      PORT: "${PORT:-8080}"
+      DB_PATH: /data/laundry.sqlite
+      ADMIN_USERNAME: "${ADMIN_USERNAME:-admin}"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD:-}"
+    depends_on:
+      - frontend
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./backend
+          target: /src
+          initial_sync: true
+          ignore:
+            - "*.sqlite*"
+    volumes:
+      - sqlite_data:/data
+      - frontend_dist:/frontend:ro
+
+  frontend:
+    image: oven/bun:1
+    working_dir: /ui
+    command: ["sh", "-c", "bun install --frozen-lockfile && bun run build --watch"]
+    volumes:
+      - ./frontend:/ui
+      - frontend_modules:/ui/node_modules
+      - frontend_dist:/ui/dist
+
+  sqlite-web:
+    image: ghcr.io/coleifer/sqlite-web:latest
+    ports:
+      - "127.0.0.1:1234:8080"
+    volumes:
+      - sqlite_data:/data
+    command: ["/data/laundry.sqlite", "--host", "0.0.0.0"]
+
+volumes:
+  sqlite_data:
+  frontend_dist:
+  frontend_modules:

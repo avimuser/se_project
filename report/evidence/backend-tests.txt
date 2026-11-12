@@ -1,0 +1,11 @@
+=== RUN   TestRecordsAndPortals
+--- PASS: TestRecordsAndPortals (0.15s)
+=== RUN   TestFullLaundryCycleAndRetry
+--- PASS: TestFullLaundryCycleAndRetry (0.98s)
+=== RUN   TestWorkflowValidation
+--- PASS: TestWorkflowValidation (0.93s)
+=== RUN   TestLiveStream
+--- PASS: TestLiveStream (0.05s)
+PASS
+ok  	se_project	2.123s
+?   	se_project/dbutils	[no test files]

@@ -1,0 +1,16 @@
+{
+  "checks": [
+    "PASS pickup lifecycle and duplicate rejection",
+    "PASS pending-delivery completion rejected",
+    "PASS failed return, successful retry and retained history",
+    "PASS student denied admin account list",
+    "PASS saved notifications marked read",
+    "PASS new server process reopens identical jobs, history and notifications"
+  ],
+  "jobs": [
+    1,
+    2,
+    3
+  ],
+  "student_job_count": 3
+}
